@@ -1,22 +1,26 @@
+import java.util.*;
+
 class Solution {
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-        List<Integer> subset = new ArrayList<>();
+        List<List<Integer>> resultList = new ArrayList<>();
         Arrays.sort(nums);
-        backtrack(0, nums, subset, res);
-        return res;        
+        backtrack(resultList, new ArrayList<>(), nums, 0);
+        return resultList;
     }
-    private void backtrack(int i, int[] nums, List<Integer> subset, List<List<Integer>> res) {
-        if (i == nums.length) {
-            res.add(new ArrayList<>(subset));
-            return;
+
+    private void backtrack(List<List<Integer>> resultSets, List<Integer> tempSet, int[] nums, int start) {
+        resultSets.add(new ArrayList<>(tempSet));
+
+        for (int i = start; i < nums.length; i++) {
+
+            // Skip duplicates
+            if (i > start && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            tempSet.add(nums[i]);
+            backtrack(resultSets, tempSet, nums, i + 1);
+            tempSet.remove(tempSet.size() - 1);
         }
-        subset.add(nums[i]);
-        backtrack(i + 1, nums, subset, res);
-        subset.remove(subset.size() - 1);
-        while (i + 1 < nums.length && nums[i] == nums[i + 1]) {
-            i++;
-        }
-        backtrack(i + 1, nums, subset, res);
-    }    
+    }
 }
