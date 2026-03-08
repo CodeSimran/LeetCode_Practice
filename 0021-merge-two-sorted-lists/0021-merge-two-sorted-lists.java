@@ -38,3 +38,6 @@ class Solution{
 
     }
 }
+
+//time complexity will be O(n);
+//space complexity will be O(1); as we are not using any extra spaces 
