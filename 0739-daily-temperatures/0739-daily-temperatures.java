@@ -7,7 +7,7 @@ class Solution {
 
         for(int idx = n-1;idx>=0;idx--){
             while(!ans.isEmpty() && temperatures[idx]>=temperatures[ans.peek()]){
-                 ans.pop();
+                ans.pop();
             }
 
             if(!ans.isEmpty()){
