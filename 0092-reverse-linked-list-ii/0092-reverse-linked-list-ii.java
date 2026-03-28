@@ -3,9 +3,6 @@ class Solution {
         if (head == null) {
             return null;
         }
-
-        
-       
         ListNode cur = head, prev = null;
         while (m > 1) {
             prev = cur;
@@ -13,11 +10,7 @@ class Solution {
             m--;
             n--;
         }
-
-      
         ListNode con = prev, tail = cur;
-
-       
         ListNode third = null;
         while (n > 0) {
             third = cur.next;
@@ -26,14 +19,11 @@ class Solution {
             cur = third;
             n--;
         }
-
-     
         if (con != null) {
             con.next = prev;
         } else {
             head = prev;
         }
-
         tail.next = cur;
         return head;
     }
