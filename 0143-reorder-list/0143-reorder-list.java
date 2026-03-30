@@ -13,7 +13,6 @@ class Solution {
         if(head == null || head.next == null)
         return;
 
-
         ListNode p1 = head;
         ListNode p2 = head;
         while(p2.next != null && p2.next.next !=null){
@@ -39,6 +38,8 @@ class Solution {
             p1 = p2.next;
             p2 = preMiddle.next;
         }
+
+
         
     }
 }
