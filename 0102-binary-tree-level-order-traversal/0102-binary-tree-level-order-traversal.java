@@ -33,3 +33,6 @@ class Solution {
         
     }
 }
+
+// time complexity == 0(n)
+// space complexity == 0(n)
