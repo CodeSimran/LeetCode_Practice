@@ -28,7 +28,6 @@ class Solution {
             current.next = preMiddle.next;
             preMiddle.next = current;
         }
-
         p1 = head;
         p2 = preMiddle.next;
         while(p1 != preMiddle){
@@ -37,9 +36,6 @@ class Solution {
             p1.next = p2;
             p1 = p2.next;
             p2 = preMiddle.next;
-        }
-
-
-        
+        }    
     }
 }
