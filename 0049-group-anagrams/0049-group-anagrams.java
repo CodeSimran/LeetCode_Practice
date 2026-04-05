@@ -5,7 +5,6 @@ class Solution {
     //     char[] ch = strs[i].toCharArray();
     //     Arrays.sort(ch);
     //     String sorted = new String(ch);
-
     //     if(!hm.containsKey(sorted)){
     //         hm.put(sorted,new ArrayList<String>());
     //     }
