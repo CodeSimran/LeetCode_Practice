@@ -1,25 +1,22 @@
 class MyHashMap {
-    int[] map;
-
+     int[] data;
     public MyHashMap() {
-        map = new int[1000000+1];
-        for(int i=0;i<map.length;i++) map[i] = -1;
+        data = new int[10000001];
+        for(int i=0;i<data.length;i++)
+        data[i] = -1;
         
     }
     
     public void put(int key, int value) {
-        map[key] = value;
-        
+        data[key] = value;
     }
     
     public int get(int key) {
-        return map[key];
-        
+        return data[key];
     }
     
     public void remove(int key) {
-        map[key] = -1;
-        
+        data[key] = -1;
     }
 }
 
