@@ -19,16 +19,22 @@ class Node {
 */
 
 class Solution {
-    Node[] visited;
+
+    private  Node cloneUtil(Node node,HashMap<Node,Node>mp){
+        Node newNode = new Node(node.val);
+        mp.put(node,newNode);
+        for(Node neighbor : node.neighbors){
+            if(!mp.containsKey(neighbor)){
+                newNode.neighbors.add(cloneUtil(neighbor,mp));
+            }else{
+                newNode.neighbors.add(mp.get(neighbor));
+            }
+        }
+        return newNode;
+    }
     public Node cloneGraph(Node node) {
         if(node == null) return null;
-        visited = new Node[101];
-        return DFS(node);
+        HashMap<Node , Node> mp = new HashMap<>(); //old-new
+        return cloneUtil(node,mp);
     }
-    public Node DFS(Node node){
-        if(visited[node.val] != null) return visited[node.val];
-        visited[node.val] = new Node(node.val);
-        for(Node n: node.neighbors) visited[node.val].neighbors.add(DFS(n));
-        return visited[node.val];
-    }
-}  
+}
