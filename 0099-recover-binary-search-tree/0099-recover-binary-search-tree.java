@@ -25,7 +25,6 @@ class Solution {
     }
     void helper(TreeNode node){
         if(node == null) return;
-
         helper(node.left);
         if(prev != null && prev.val > node.val){
             if(first == null){
