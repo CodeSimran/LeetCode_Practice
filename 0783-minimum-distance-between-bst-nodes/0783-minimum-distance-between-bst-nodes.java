@@ -14,13 +14,13 @@
  * }
  */
 class Solution {
-    private int minDiff = Integer.MAX_VALUE;
-    private TreeNode prev = null;
+    public int minDiff = Integer.MAX_VALUE;
+    public TreeNode prev = null;
     public int minDiffInBST(TreeNode root) {
         inorder(root);
         return minDiff;
     }
-    private void inorder(TreeNode root){
+    public void inorder(TreeNode root){
         if(root == null){
             return;
         }
