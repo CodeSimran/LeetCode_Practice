@@ -14,26 +14,22 @@
  * }
  */
 class Solution {
-    private int rs = Integer.MAX_VALUE;
-    private int[] minMaxSubTree(TreeNode head) { 
-        if(head == null) return null;
-        int[] L = minMaxSubTree(head.left);   // min,max left sub tree
-        int[] R = minMaxSubTree(head.right);  // min,max right sub tree
-
-        int min = head.val, max = head.val;
-        if(L != null){
-            rs = Math.min(rs, head.val - L[1]);
-            min = L[0];
-        }
-
-        if(R != null){
-            rs = Math.min(rs, R[0] - head.val);
-            max = R[1];
-        }
-        return new int[]{min, max};
-    }
+    private int minDiff = Integer.MAX_VALUE;
+    private TreeNode prev = null;
     public int minDiffInBST(TreeNode root) {
-        minMaxSubTree(root);
-        return rs;
+        inorder(root);
+        return minDiff;
+    }
+    private void inorder(TreeNode root){
+        if(root == null){
+            return;
+        }
+        inorder(root.left);
+        if(prev !=null){
+            int diff = Math.abs(prev.val - root.val);
+            minDiff = Math.min(minDiff , diff);
+        }
+        prev = root;
+        inorder(root.right);
     }
 }
