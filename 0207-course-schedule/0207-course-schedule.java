@@ -1,35 +1,27 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        List<List<Integer>> k = new ArrayList<>();
-        int[] sub = new int[numCourses];
-
-        for(int i = 0; i < sub.length; i++)
-            k.add(new ArrayList<>());
-
-        for(int[] i : prerequisites)
-            k.get(i[1]).add(i[0]);
-
-        for(int i = 0; i < sub.length; i++){
-            if(sub[i] == 0 && val(k, sub, i))
-                return false;
+        int[] inDegree = new int[numCourses];
+        List<List<Integer>> graph = new ArrayList<>();
+        
+        for (int i = 0; i < numCourses; i++) graph.add(new ArrayList<>());
+        
+        for (int[] p : prerequisites) {
+            graph.get(p[1]).add(p[0]);
+            inDegree[p[0]]++;
         }
-        return true;
-    }
-
-    public boolean val(List<List<Integer>> k, int[] sub, int i){
-        if(sub[i] == 1)
-            return true;
-
-        if(sub[i] == 2)
-            return false;
-
-        sub[i] = 1;
-
-        for(int j : k.get(i))
-            if(val(k, sub, j))
-                return true;
-
-        sub[i] = 2;
-        return false;
+        
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++)
+            if (inDegree[i] == 0) q.add(i);
+        
+        int count = 0;
+        while (!q.isEmpty()) {
+            int course = q.poll();
+            count++;
+            for (int next : graph.get(course))
+                if (--inDegree[next] == 0) q.add(next);
+        }
+        
+        return count == numCourses;
     }
 }
