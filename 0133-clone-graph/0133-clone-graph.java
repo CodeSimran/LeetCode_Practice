@@ -24,17 +24,20 @@ class Solution {
         mp.put(node,newNode);
         for(Node neighbor : node.neighbors){
             if(!mp.containsKey(neighbor)){
-                //not clone
                 newNode.neighbors.add(cloneUtil(neighbor,mp));
-            }else{
+            }
+            else{
                 newNode.neighbors.add(mp.get(neighbor));
             }
         }
         return newNode;
     }
+
     public Node cloneGraph(Node node) {
         if(node == null) return null;
         HashMap<Node,Node> mp = new HashMap<>();
         return cloneUtil(node,mp);
+
+        
     }
 }
