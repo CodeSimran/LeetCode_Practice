@@ -19,12 +19,12 @@ class Node {
 */
 
 class Solution {
-
-    private  Node cloneUtil(Node node,HashMap<Node,Node>mp){
+    private Node cloneUtil(Node node,HashMap<Node,Node> mp){
         Node newNode = new Node(node.val);
         mp.put(node,newNode);
         for(Node neighbor : node.neighbors){
             if(!mp.containsKey(neighbor)){
+                //not clone
                 newNode.neighbors.add(cloneUtil(neighbor,mp));
             }else{
                 newNode.neighbors.add(mp.get(neighbor));
@@ -34,7 +34,7 @@ class Solution {
     }
     public Node cloneGraph(Node node) {
         if(node == null) return null;
-        HashMap<Node , Node> mp = new HashMap<>(); //old-new
+        HashMap<Node,Node> mp = new HashMap<>();
         return cloneUtil(node,mp);
     }
 }
