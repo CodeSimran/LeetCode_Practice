@@ -8,12 +8,14 @@ class Solution {
 
         int[][] mat = new int[M][N];
 
+        // convert char to int
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < N; j++) {
                 mat[i][j] = matrix[i][j] - '0';
             }
         }
 
+        // row-wise prefix widths
         for (int i = 0; i < M; i++) {
             for (int j = 1; j < N; j++) {
                 if (mat[i][j] == 1) {
@@ -24,11 +26,13 @@ class Solution {
 
         int Ans = 0;
 
+        // fix each column
         for (int j = 0; j < N; j++) {
             for (int i = 0; i < M; i++) {
                 int width = mat[i][j];
                 if (width == 0) continue;
 
+                // expand downward
                 int currWidth = width;
                 for (int k = i; k < M && mat[k][j] > 0; k++) {
                     currWidth = Math.min(currWidth, mat[k][j]);
@@ -36,6 +40,7 @@ class Solution {
                     Ans = Math.max(Ans, currWidth * height);
                 }
 
+                // expand upward
                 currWidth = width;
                 for (int k = i; k >= 0 && mat[k][j] > 0; k--) {
                     currWidth = Math.min(currWidth, mat[k][j]);
