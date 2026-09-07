@@ -5,7 +5,6 @@ class Solution {
 
         int children = 0;
         int cookie = 0;
-
         while(cookie < s.length && children < g.length){
             if(s[cookie] >= g[children]){
                 children++;
