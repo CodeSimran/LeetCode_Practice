@@ -1,28 +1,21 @@
 class Solution {
-    private int f(ArrayList<Integer> nums , int i , int j,int dp[][]){
-    if(i>j) return 0;
-    if(dp[i][j]!=-1) return dp[i][j];
-    int maxi = Integer.MIN_VALUE;
-    for(int idx = i ; idx<=j;idx++){
-        int cost  = nums.get(i-1)*nums.get(idx)*nums.get(j+1) + f(nums,i,idx-1,dp)+f(nums,idx+1,j,dp);
-        maxi = Math.max(maxi,cost);
-        
+    public int maxCoins(int[] arr) {
+       int[] a=new int[arr.length+2];
+        a[0]=a[a.length-1]=1;
+        for(int i=0;i<arr.length;i++) a[i+1]=arr[i];
+        int[][] dp=new int[a.length][a.length];
+        return BB(a,0,a.length-1,dp);
     }
-    return dp[i][j] = maxi;
-    }
-    public int maxCoins(int[] nums) {
-        int n = nums.length;
-        ArrayList<Integer> num = new ArrayList<>();
-        num.add(1);
-        for(int it : nums){
-            num.add(it);
+    public static int BB(int[] a,int i,int j,int[][] dp) {
+        if (i+1==j) return 0;   
+        if (dp[i][j]!=0) return dp[i][j];
+        int ans=0;
+        for (int k=i+1;k<j;k++) {
+            int left=BB(a,i,k,dp);
+            int right=BB(a,k,j,dp);
+            int self=a[i]*a[k]*a[j];
+            ans=Math.max(ans,left+right+self);
         }
-        num.add(1);
-        int dp[][] = new int[n+1][n+1];
-        for(int it[] : dp){
-            Arrays.fill(it,-1);
-        }
-        return f(num,1,n,dp);
-
+        return dp[i][j]=ans; 
     }
 }
