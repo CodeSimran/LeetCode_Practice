@@ -1,28 +1,24 @@
-import java.util.ArrayList;
-
 class Solution {
+    static int arr[];
+    static int n;
+    static int dp[][];
+    static int helper(int st, int end){
+        if(st>end) return 0;
+
+        if(dp[st][end]!=-1) return dp[st][end];
+        int ans = 0;
+        for(int i=st; i<=end; i++){
+            int x = ((st-1)<0 ? 1 : arr[st-1]) * ((end+1)>=n ? 1 : arr[end+1]) * arr[i];
+            x += (helper(st,i-1)+helper(i+1,end));
+            ans = Math.max(ans,x);
+        }
+        return dp[st][end] = ans;
+    }
     public int maxCoins(int[] nums) {
-        int n = nums.length;
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(1);
-        for (int i = 0; i < n; i++) {
-            list.add(nums[i]);
-        }
-        list.add(1);
-
-        int[][] dp = new int[n + 2][n + 2];
-
-        for (int len = 1; len <= n; len++) {
-            for (int i = 1; i <= n - len + 1; i++) {
-                int j = i + len - 1;
-                for (int k = i; k <= j; k++) {
-                    int coins = list.get(i - 1) * list.get(k) * list.get(j + 1);
-                    coins += (i <= k - 1) ? dp[i][k - 1] : 0;
-                    coins += (k + 1 <= j) ? dp[k + 1][j] : 0;
-                    dp[i][j] = Math.max(dp[i][j], coins);
-                }
-            }
-        }
-        return dp[1][n];
+        arr = nums;
+        n = arr.length;
+        dp = new int[305][305];
+        for(var a : dp) Arrays.fill(a,-1);
+        return helper(0,n-1);
     }
 }
