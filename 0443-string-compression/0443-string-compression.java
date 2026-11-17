@@ -2,47 +2,41 @@
 class Solution {
     public int compress(char[] chars) {
 
-        int read = 0;
-        int write = 0;
+        int i = 0;
+        int j = 0;
 
-        while (read < chars.length) {
+        while (i < chars.length) {
 
-            char current = chars[read];
+            char ch = chars[i];
             int count = 0;
 
-            // Count consecutive characters
-            while (read < chars.length && chars[read] == current) {
+            // Count repeating characters
+            while (i < chars.length && chars[i] == ch) {
                 count++;
-                read++;
+                i++;
             }
 
-            // Write the character
-            chars[write] = current;
-            write++;
+            // Write character
+            chars[j] = ch;
+            j++;
 
-            // Write count if greater than 1
+            // Write count
             if (count > 1) {
 
-                // Store digits temporarily
-                int temp = count;
-                int digits = 0;
-
-                while (temp > 0) {
-                    digits++;
-                    temp = temp / 10;
-                }
-
-                // Write digits from left to right
                 int divisor = 1;
 
-                for (int i = 1; i < digits; i++) {
+                // Find the highest place value
+                while (count / divisor >= 10) {
                     divisor = divisor * 10;
                 }
 
+                // Write each digit
                 while (divisor > 0) {
+
                     int digit = count / divisor;
-                    chars[write] = (char) (digit + '0');
-                    write++;
+
+                    chars[j] = (char)(digit + '0');
+                    j++;
 
                     count = count % divisor;
                     divisor = divisor / 10;
@@ -50,6 +44,6 @@ class Solution {
             }
         }
 
-        return write;
+        return j;
     }
 }
