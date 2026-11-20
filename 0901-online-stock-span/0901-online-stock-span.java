@@ -1,15 +1,23 @@
+import java.util.*;
+
 class StockSpanner {
-    Stack<int[]> st;
+    ArrayList<Integer> list = new ArrayList<>();
     public StockSpanner() {
-        st = new Stack<>();
+        
     }
+
     public int next(int price) {
-        int span = 1;
-        while (!st.isEmpty() && st.peek()[0] <= price) {
-            span += st.pop()[1];
+
+        list.add(price);
+        int ans = 0;
+
+        for(int i=list.size()-1; i>=0; i--){
+            // System.out.println(list.get(i));
+            if(price >= list.get(i)) ans++;
+            else break;
         }
-        st.push(new int[] {price, span});
-        return span;
+
+        return ans;
     }
 }
 
