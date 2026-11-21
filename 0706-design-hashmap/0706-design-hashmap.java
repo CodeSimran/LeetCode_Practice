@@ -1,24 +1,18 @@
 class MyHashMap {
-     int[] data;
-    public MyHashMap() {
-        data = new int[10000001];
-        for(int i=0;i<data.length;i++)
-        data[i] = -1;
-        
+    constructor() {
+        this.data = new Array(1000001)
     }
-    
-    public void put(int key, int value) {
-        data[key] = value;
+    put(key, val) {
+        this.data[key] = val
     }
-    
-    public int get(int key) {
-        return data[key];
+    get(key) {
+        let val = this.data[key]
+        return val !== undefined ? val : -1
     }
-    
-    public void remove(int key) {
-        data[key] = -1;
+    remove(key) {
+        delete this.data[key]
     }
-}
+};
 
 /**
  * Your MyHashMap object will be instantiated and called as such:
