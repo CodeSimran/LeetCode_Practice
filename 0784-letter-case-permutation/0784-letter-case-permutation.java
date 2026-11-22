@@ -1,30 +1,31 @@
 class Solution {
     public List<String> letterCasePermutation(String s) {
-        char arr[] = s.toCharArray();
-        List<String> ans = new ArrayList<>();
-        solve(ans, arr, 0);
-    return ans;
+        List<String> result=new ArrayList<>();
+        String current="";
+        generateStringPermutation(0,current,s,result);
+        
+        return result;
     }
-
-    void solve(List<String> res, char str[], int pos){
-        if(pos == str.length){
-            res.add(new String(str));
+    public static void generateStringPermutation(int index,String current,String str,List<String> result){
+        if(index==str.length()){
+             result.add(current);
+             return ;
+        }
+        
+         if(Character.isDigit(str.charAt(index))){
+            generateStringPermutation(index+1,current+str.charAt(index),str,result);
             return;
         }
 
-        if(Character.isLetter(str[pos])){
-            if(Character.isUpperCase(str[pos])){
-                str[pos] = Character.toLowerCase(str[pos]);
-                solve(res, str, pos+1);
-                str[pos] = Character.toUpperCase(str[pos]);
+            generateStringPermutation(index+1,current+str.charAt(index),str,result);
+            char ch;
+            if(Character.isUpperCase(str.charAt(index))){
+                ch=Character.toLowerCase(str.charAt(index));
+            }else{
+                ch=Character.toUpperCase(str.charAt(index));
             }
-            else{
-                str[pos] = Character.toUpperCase(str[pos]);
-                solve(res, str, pos+1);
-                str[pos] = Character.toLowerCase(str[pos]);
-            }
-           
-        }
-        solve(res, str, pos+1);
+
+            generateStringPermutation(index+1,current+ch,str,result);
+        
     }
-}
+} 
