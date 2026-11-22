@@ -1,24 +1,20 @@
-class Solution {
-    int[] arr;
-    HashSet<List<Integer>> hashSet = new HashSet<>();
+public class Solution {
     public List<List<Integer>> findSubsequences(int[] nums) {
-        arr = nums;
-        List<Integer> arrayList = new ArrayList<>();
-        recursion(arrayList,0);
-        List<List<Integer>> result = new ArrayList<>(hashSet);
-        return result;
+        List<List<Integer>> res = new LinkedList<>();
+        helper(new LinkedList<Integer>(), 0, nums, res);
+        return res; 
     }
-
-    public void recursion(List<Integer> arrayList, int index){
-        if(arrayList.size()>=2) hashSet.add(new ArrayList(arrayList));
-
-        for(int i = index;i<arr.length;i++){
-            if(arrayList.size() == 0 || arr[i]>= arrayList.get(arrayList.size()-1)){
-                arrayList.add(arr[i]);
-                recursion(arrayList,i+1);
-                arrayList.remove(arrayList.size()-1);
+    private void helper(LinkedList<Integer> list, int index, int[] nums, List<List<Integer>> res){
+        if(list.size()>1) res.add(new LinkedList<Integer>(list));
+        Set<Integer> used = new HashSet<>();
+        for(int i = index; i<nums.length; i++){
+            if(used.contains(nums[i])) continue;
+            if(list.size()==0 || nums[i]>=list.peekLast()){
+                used.add(nums[i]);
+                list.add(nums[i]); 
+                helper(list, i+1, nums, res);
+                list.remove(list.size()-1);
             }
         }
-
     }
 }
