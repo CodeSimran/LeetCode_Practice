@@ -1,57 +1,36 @@
-class Pair {
-    int timestamp;
+class Data {
     String val;
-
-    Pair(int timestamp, String val) {
-        this.timestamp = timestamp;
+    int time;
+    Data(String val, int time) {
         this.val = val;
+        this.time = time;
     }
 }
 class TimeMap {
-    private HashMap<String, ArrayList<Pair>> hashMap;
 
+    Map<String, List<Data>> map;
     public TimeMap() {
-        hashMap = new HashMap<>();
+        map = new HashMap<String, List<Data>>();
     }
-    
+
     public void set(String key, String value, int timestamp) {
-        if (hashMap.containsKey(key)) {
-            hashMap.get(key).add(new Pair(timestamp, value));
-        } else {
-            ArrayList<Pair> arr = new ArrayList<>();
-            arr.add(new Pair(timestamp, value));
-            hashMap.put(key, arr);
-        }
+        map.computeIfAbsent(key, k -> new ArrayList<Data>()).add(new Data(value, timestamp));
     }
-    
+
     public String get(String key, int timestamp) {
-        String previousTime = "";
+        if (!map.containsKey(key)) return "";
+        return binarySearch(map.get(key), timestamp);
+    }
 
-        if (hashMap.containsKey(key)) {
-            ArrayList<Pair> arr = hashMap.get(key);
-            int low = 0;
-            int high = arr.size() - 1;
-
-            while (low <= high) {
-                int mid = (low + high) / 2;
-                int timeVal = arr.get(mid).timestamp;
-                if (timeVal == timestamp) {
-                    return arr.get(mid).val;
-                } else if (timeVal < timestamp) {
-                    previousTime = arr.get(mid).val;
-                    low = mid + 1;
-                } else {
-                    high = mid - 1;
-                }
-            }
+    private String binarySearch(List<Data> list, int time) {
+        int left = 0, right = list.size() - 1;
+        while (left < right) {
+            int mid = (left + right + 1) >>> 1;
+            if (time < list.get(mid).time)
+                right = mid - 1;
+            else
+                left = mid;
         }
-        return previousTime;
+        return list.get(left).time <= time ? list.get(left).val : "";  // left == right
     }
 }
-
-/**
- * Your TimeMap object will be instantiated and called as such:
- * TimeMap obj = new TimeMap();
- * obj.set(key,value,timestamp);
- * String param_2 = obj.get(key,timestamp);
- */
