@@ -1,36 +1,60 @@
-class Data {
-    String val;
-    int time;
-    Data(String val, int time) {
-        this.val = val;
-        this.time = time;
-    }
-}
 class TimeMap {
 
-    Map<String, List<Data>> map;
+    class Pair {
+        int timestamp;
+        String value;
+
+        Pair(int timestamp, String value) {
+            this.timestamp = timestamp;
+            this.value = value;
+        }
+    }
+
+    HashMap<String, ArrayList<Pair>> map;
+
     public TimeMap() {
-        map = new HashMap<String, List<Data>>();
+        map = new HashMap<>();
     }
 
     public void set(String key, String value, int timestamp) {
-        map.computeIfAbsent(key, k -> new ArrayList<Data>()).add(new Data(value, timestamp));
+
+        if (!map.containsKey(key)) {
+            map.put(key, new ArrayList<>());
+        }
+
+        map.get(key).add(new Pair(timestamp, value));
     }
 
     public String get(String key, int timestamp) {
-        if (!map.containsKey(key)) return "";
-        return binarySearch(map.get(key), timestamp);
-    }
 
-    private String binarySearch(List<Data> list, int time) {
-        int left = 0, right = list.size() - 1;
-        while (left < right) {
-            int mid = (left + right + 1) >>> 1;
-            if (time < list.get(mid).time)
-                right = mid - 1;
-            else
-                left = mid;
+        if (!map.containsKey(key)) {
+            return "";
         }
-        return list.get(left).time <= time ? list.get(left).val : "";  // left == right
+
+        ArrayList<Pair> list = map.get(key);
+
+        int left = 0;
+        int right = list.size() - 1;
+
+        String answer = "";
+
+        while (left <= right) {
+
+            int mid = left + (right - left) / 2;
+
+            if (list.get(mid).timestamp <= timestamp) {
+
+                answer = list.get(mid).value;
+
+                // Maybe there is a better/later timestamp
+                left = mid + 1;
+
+            } else {
+
+                right = mid - 1;
+            }
+        }
+
+        return answer;
     }
 }
